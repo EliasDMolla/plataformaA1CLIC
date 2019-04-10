@@ -1,0 +1,70 @@
+﻿using System;
+using System.Web;
+using System.Web.Services;
+
+using System.Data;
+
+namespace WebServiceTokensWS
+{
+    /// <summary>
+    /// Descripción breve de wsClientes
+    /// </summary>
+    [WebService(Namespace = "http://tempuri.org/")]
+    [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
+    [System.ComponentModel.ToolboxItem(false)]
+    // Para permitir que se llame a este servicio web desde un script, usando ASP.NET AJAX, quite la marca de comentario de la línea siguiente. 
+    // [System.Web.Script.Services.ScriptService]
+    public class wsClientes : System.Web.Services.WebService
+    {
+       
+        public WebServiceTokens.Logica.clsSeguridad SoapHeader;
+
+        [WebMethod]
+        [System.Web.Services.Protocols.SoapHeader("SoapHeader")]
+        public string AutenticacionUsuario()
+        {
+            try
+            {
+                if (SoapHeader == null) return "-1";
+                if (!SoapHeader.blCredencialesValidas(SoapHeader.stToken)) return "-1";
+
+                string stToken = Guid.NewGuid().ToString();
+                HttpRuntime.Cache.Add(stToken,
+                    SoapHeader.stToken,
+                    null,
+                    System.Web.Caching.Cache.NoAbsoluteExpiration,
+                    TimeSpan.FromMinutes(30),
+                    System.Web.Caching.CacheItemPriority.NotRemovable,
+                    null);
+                return stToken;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+        [WebMethod]
+        [System.Web.Services.Protocols.SoapHeader("SoapHeader")]
+        public DataSet dsConsultaClientes(int lnID)
+        {
+            try
+            {
+
+                if (SoapHeader == null) throw new Exception("Requiere validacion");
+
+                if (!SoapHeader.blCredencialesValidas(SoapHeader)) throw new Exception("Requiere validacion");
+
+                DataSet dsConsulta = null;
+
+                WebServiceTokens.Logica.Clases.clsClientes obclsCliente = new WebServiceTokens.Logica.Clases.clsClientes();
+                dsConsulta = obclsCliente.dsConsultaClientes(lnID);
+
+                return dsConsulta;
+            }
+            catch (Exception ex) { throw ex; }
+        }
+    }
+}
