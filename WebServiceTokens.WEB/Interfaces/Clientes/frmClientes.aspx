@@ -33,7 +33,7 @@
                               <asp:BoundField DataField="clieApellido" HeaderText="Apellidos" />
                               <asp:BoundField DataField="clieDireccion" HeaderText="Direccion" />
                               <asp:BoundField DataField="clieTelefono" HeaderText="Telefono" />
-                              <asp:BoundField DataField="clieCorreo" HeaderText="Correo" />                     
+                              <asp:BoundField DataField="clieCorreo" HeaderText="Email" />                     
 
                          </Columns>
 
