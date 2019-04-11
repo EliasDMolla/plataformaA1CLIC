@@ -9,6 +9,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
+        <h5>Hola esto es una prueba</h5>
         <table style="width: 100%;">
             <tr>
                 <td style="width: 50%;">Identificacion:</td>
